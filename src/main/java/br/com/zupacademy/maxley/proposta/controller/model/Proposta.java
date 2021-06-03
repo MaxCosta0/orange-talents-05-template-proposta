@@ -1,5 +1,6 @@
 package br.com.zupacademy.maxley.proposta.controller.model;
 
+import br.com.zupacademy.maxley.proposta.config.annotation.CPForCNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ public class Proposta {
     public Long id;
 
     @NotBlank
-    @CPF
+    @CPForCNPJ
     private String documento;
     @NotBlank @Email
     private String email;
@@ -30,6 +31,9 @@ public class Proposta {
     @NotNull
     @Positive
     private BigDecimal salario;
+
+    @Deprecated
+    public Proposta(){}
 
     public Proposta(@NotBlank @CPF String documento, @NotBlank @Email String email,
                     @NotBlank String nome, @NotBlank String endereco,
