@@ -1,4 +1,4 @@
-package br.com.zupacademy.maxley.Proposta;
+package br.com.zupacademy.maxley.proposta;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
