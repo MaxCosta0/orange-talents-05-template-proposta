@@ -4,6 +4,7 @@ import br.com.zupacademy.maxley.proposta.controller.model.Proposta;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +13,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @SpringBootApplication
+@EnableFeignClients
 public class PropostaApplication implements CommandLineRunner {
 
 	@PersistenceContext
