@@ -8,6 +8,7 @@ import br.com.zupacademy.maxley.proposta.controller.model.Proposta;
 import br.com.zupacademy.maxley.proposta.repository.PropostaRepository;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.health.HealthContributor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -60,6 +61,7 @@ public class PropostasController {
             return ResponseEntity.notFound().build();
         }
 
+        
         VerificaPropostaRequest propostaRequest = new VerificaPropostaRequest(propostaASerVerificada);
         try{
             VerificaPropostaResponse response = consulta.getResponse(propostaRequest);
