@@ -1,6 +1,7 @@
-package br.com.zupacademy.maxley.proposta.controller.dto;
+package br.com.zupacademy.maxley.proposta.controller.feign;
 
-import feign.Body;
+import br.com.zupacademy.maxley.proposta.controller.dto.VerificaPropostaRequest;
+import br.com.zupacademy.maxley.proposta.controller.dto.VerificaPropostaResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -1,6 +1,7 @@
 package br.com.zupacademy.maxley.proposta.controller;
 
-import br.com.zupacademy.maxley.proposta.controller.dto.ConsultaDadosFinanceiros;
+import br.com.zupacademy.maxley.proposta.controller.dto.EstadoProposta;
+import br.com.zupacademy.maxley.proposta.controller.feign.ConsultaDadosFinanceiros;
 import br.com.zupacademy.maxley.proposta.controller.dto.NovaPropostaRequest;
 import br.com.zupacademy.maxley.proposta.controller.dto.VerificaPropostaRequest;
 import br.com.zupacademy.maxley.proposta.controller.dto.VerificaPropostaResponse;
@@ -8,12 +9,9 @@ import br.com.zupacademy.maxley.proposta.controller.model.Proposta;
 import br.com.zupacademy.maxley.proposta.repository.PropostaRepository;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.health.HealthContributor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -54,6 +52,7 @@ public class PropostasController {
     }
 
     @GetMapping(value = "/verifica-proposta/{id}")
+    @Transactional
     public ResponseEntity<?> verificaProposta(@PathVariable("id") Long id){
         Proposta propostaASerVerificada = manager.find(Proposta.class, id);
 
@@ -61,15 +60,16 @@ public class PropostasController {
             return ResponseEntity.notFound().build();
         }
 
-        
         VerificaPropostaRequest propostaRequest = new VerificaPropostaRequest(propostaASerVerificada);
         try{
             VerificaPropostaResponse response = consulta.getResponse(propostaRequest);
+            propostaASerVerificada.setEstado(EstadoProposta.ELEGIVEL);
+            manager.merge(propostaASerVerificada);
             return ResponseEntity.ok().build();
         }catch (FeignException exception){
+            propostaASerVerificada.setEstado(EstadoProposta.NAO_ELEGIVEL);
+            manager.merge(propostaASerVerificada);
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
-
-
     }
 }

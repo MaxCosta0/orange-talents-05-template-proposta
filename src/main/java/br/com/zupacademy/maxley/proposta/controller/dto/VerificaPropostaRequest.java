@@ -14,6 +14,9 @@ public class VerificaPropostaRequest {
     @NotBlank
     private String idProposta;
 
+    @Deprecated
+    public VerificaPropostaRequest(){}
+
     public VerificaPropostaRequest(Proposta propostaASerVerificada) {
         this.documento = propostaASerVerificada.getDocumento();
         this.nome = propostaASerVerificada.getNome();

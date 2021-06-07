@@ -1,12 +1,10 @@
 package br.com.zupacademy.maxley.proposta.controller.model;
 
 import br.com.zupacademy.maxley.proposta.config.annotation.CPForCNPJ;
+import br.com.zupacademy.maxley.proposta.controller.dto.EstadoProposta;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,6 +12,7 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 @Entity
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Proposta {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +21,25 @@ public class Proposta {
     @NotBlank
     @CPForCNPJ
     private String documento;
+
     @NotBlank @Email
     private String email;
+
     @NotBlank
     private String nome;
+
     @NotBlank
     private String endereco;
+
     @NotNull
     @Positive
     private BigDecimal salario;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoProposta estado;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    private Cartao cartao;
 
     @Deprecated
     public Proposta(){}
@@ -68,5 +77,21 @@ public class Proposta {
 
     public BigDecimal getSalario() {
         return salario;
+    }
+
+    public void setEstado(EstadoProposta estado) {
+        this.estado = estado;
+    }
+
+    public EstadoProposta getEstado() {
+        return estado;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
+    }
+
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 }
