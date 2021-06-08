@@ -1,10 +1,7 @@
 package br.com.zupacademy.maxley.proposta.controller;
 
-import br.com.zupacademy.maxley.proposta.controller.dto.EstadoProposta;
+import br.com.zupacademy.maxley.proposta.controller.dto.*;
 import br.com.zupacademy.maxley.proposta.controller.feign.ConsultaDadosFinanceiros;
-import br.com.zupacademy.maxley.proposta.controller.dto.NovaPropostaRequest;
-import br.com.zupacademy.maxley.proposta.controller.dto.VerificaPropostaRequest;
-import br.com.zupacademy.maxley.proposta.controller.dto.VerificaPropostaResponse;
 import br.com.zupacademy.maxley.proposta.controller.model.Proposta;
 import br.com.zupacademy.maxley.proposta.repository.PropostaRepository;
 import feign.FeignException;
@@ -71,5 +68,17 @@ public class PropostasController {
             manager.merge(propostaASerVerificada);
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
+    }
+
+    @GetMapping(value = "propostas/{id}")
+    public ResponseEntity<PropostaResponse> detalharProposta(@PathVariable("id") Long id){
+        Proposta possivelProposta = manager.find(Proposta.class, id);
+
+        if(possivelProposta == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        PropostaResponse response = new PropostaResponse(possivelProposta.getEstado());
+        return ResponseEntity.ok(response);
     }
 }
