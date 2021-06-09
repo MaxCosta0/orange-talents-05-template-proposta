@@ -58,6 +58,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>PropostaApp</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
