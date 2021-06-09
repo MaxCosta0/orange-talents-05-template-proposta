@@ -11,6 +11,7 @@ services:
   app:
     image: maxcosta0/proposta
     container_name: proposta_container
+    restart: always
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/propostadb?serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
