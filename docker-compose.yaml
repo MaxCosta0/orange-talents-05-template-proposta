@@ -16,6 +16,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/propostadb?serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Pa55w0rd
+      SERVER_PORT: 8080
     ports:
       - 8080:8080
     depends_on:

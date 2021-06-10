@@ -1,6 +1,6 @@
 package br.com.zupacademy.maxley.proposta.controller.dto;
 
-import br.com.zupacademy.maxley.proposta.controller.model.Proposta;
+import br.com.zupacademy.maxley.proposta.model.Proposta;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.*;

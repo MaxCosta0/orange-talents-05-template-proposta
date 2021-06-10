@@ -2,7 +2,7 @@ package br.com.zupacademy.maxley.proposta.controller;
 
 import br.com.zupacademy.maxley.proposta.controller.dto.*;
 import br.com.zupacademy.maxley.proposta.controller.feign.ConsultaDadosFinanceiros;
-import br.com.zupacademy.maxley.proposta.controller.model.Proposta;
+import br.com.zupacademy.maxley.proposta.model.Proposta;
 import br.com.zupacademy.maxley.proposta.repository.PropostaRepository;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +70,6 @@ public class PropostasController {
         }
     }
 
-    @GetMapping(value = "propostas/{id}")
     public ResponseEntity<PropostaResponse> detalharProposta(@PathVariable("id") Long id){
         Proposta possivelProposta = manager.find(Proposta.class, id);
 

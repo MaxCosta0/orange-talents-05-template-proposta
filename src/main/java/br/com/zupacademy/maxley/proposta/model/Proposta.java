@@ -1,4 +1,4 @@
-package br.com.zupacademy.maxley.proposta.controller.model;
+package br.com.zupacademy.maxley.proposta.model;
 
 import br.com.zupacademy.maxley.proposta.config.annotation.CPForCNPJ;
 import br.com.zupacademy.maxley.proposta.controller.dto.EstadoProposta;

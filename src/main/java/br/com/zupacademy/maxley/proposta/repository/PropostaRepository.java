@@ -1,7 +1,7 @@
 package br.com.zupacademy.maxley.proposta.repository;
 
 import br.com.zupacademy.maxley.proposta.controller.dto.EstadoProposta;
-import br.com.zupacademy.maxley.proposta.controller.model.Proposta;
+import br.com.zupacademy.maxley.proposta.model.Proposta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

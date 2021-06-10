@@ -1,11 +1,6 @@
 package br.com.zupacademy.maxley.proposta.controller.dto;
 
-import br.com.zupacademy.maxley.proposta.controller.model.Cartao;
-import br.com.zupacademy.maxley.proposta.controller.model.Proposta;
-import br.com.zupacademy.maxley.proposta.repository.PropostaRepository;
-import org.springframework.util.Assert;
-
-import java.util.Optional;
+import br.com.zupacademy.maxley.proposta.model.Cartao;
 
 public class CartaoClientResponse {
 

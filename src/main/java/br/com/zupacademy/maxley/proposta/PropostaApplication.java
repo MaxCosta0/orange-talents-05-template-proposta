@@ -1,6 +1,6 @@
 package br.com.zupacademy.maxley.proposta;
 
-import br.com.zupacademy.maxley.proposta.controller.model.Proposta;
+import br.com.zupacademy.maxley.proposta.model.Proposta;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.swing.text.html.parser.Entity;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 

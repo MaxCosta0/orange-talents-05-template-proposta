@@ -1,8 +1,10 @@
-package br.com.zupacademy.maxley.proposta.controller.model;
+package br.com.zupacademy.maxley.proposta.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cartao {
@@ -15,6 +17,8 @@ public class Cartao {
     private String titular;
     @Positive
     private Integer limite;
+    @OneToMany(mappedBy = "cartao")
+    private List<Biometria> biometrias = new ArrayList<>();
 
     @Deprecated
     public Cartao(){}
@@ -24,5 +28,9 @@ public class Cartao {
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.limite = limite;
+    }
+
+    public List<Biometria> getBiometrias() {
+        return biometrias;
     }
 }

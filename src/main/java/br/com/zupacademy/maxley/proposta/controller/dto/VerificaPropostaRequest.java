@@ -1,7 +1,7 @@
 package br.com.zupacademy.maxley.proposta.controller.dto;
 
 import br.com.zupacademy.maxley.proposta.config.annotation.CPForCNPJ;
-import br.com.zupacademy.maxley.proposta.controller.model.Proposta;
+import br.com.zupacademy.maxley.proposta.model.Proposta;
 
 import javax.validation.constraints.NotBlank;
 
