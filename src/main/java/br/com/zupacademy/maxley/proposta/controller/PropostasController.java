@@ -48,7 +48,7 @@ public class PropostasController {
        return ResponseEntity.created(urlProposta).build();
     }
 
-    @GetMapping(value = "/verifica-proposta/{id}")
+    @GetMapping(value = "/propostas/verificar/{id}")
     @Transactional
     public ResponseEntity<?> verificaProposta(@PathVariable("id") Long id){
         Proposta propostaASerVerificada = manager.find(Proposta.class, id);
@@ -70,6 +70,7 @@ public class PropostasController {
         }
     }
 
+    @GetMapping(value = "/propostas/{id}")
     public ResponseEntity<PropostaResponse> detalharProposta(@PathVariable("id") Long id){
         Proposta possivelProposta = manager.find(Proposta.class, id);
 
