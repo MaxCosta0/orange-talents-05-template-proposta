@@ -1,5 +1,6 @@
 package br.com.zupacademy.maxley.proposta;
 
+import br.com.zupacademy.maxley.proposta.controller.dto.EstadoProposta;
 import br.com.zupacademy.maxley.proposta.model.Proposta;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -34,6 +35,9 @@ public class PropostaApplication implements CommandLineRunner {
 		Proposta proposta3 = new Proposta("343.199.760-02", "maxley3@mail.com",  "maxley3", "Avenida C", new BigDecimal("2500"));
 		Proposta proposta4 = new Proposta("720.306.100-03", "maxley4@mail.com",  "maxley4", "Avenida D", new BigDecimal("2500"));
 		Proposta proposta5 = new Proposta("349.787.820-07", "maxley5@mail.com",  "maxley5", "Avenida E", new BigDecimal("2500"));
+		proposta1.setEstado(EstadoProposta.ELEGIVEL);
+		proposta2.setEstado(EstadoProposta.ELEGIVEL);
+		proposta3.setEstado(EstadoProposta.NAO_ELEGIVEL);
 		manager.persist(proposta1);
 		manager.persist(proposta2);
 		manager.persist(proposta3);

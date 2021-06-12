@@ -19,6 +19,8 @@ public class Cartao {
     private Integer limite;
     @OneToMany(mappedBy = "cartao")
     private List<Biometria> biometrias = new ArrayList<>();
+    @OneToOne
+    private DadosBloqueioCartao bloqueio;
 
     @Deprecated
     public Cartao(){}
@@ -29,8 +31,17 @@ public class Cartao {
         this.titular = titular;
         this.limite = limite;
     }
-
+    
     public List<Biometria> getBiometrias() {
         return biometrias;
     }
+
+    public DadosBloqueioCartao getBloqueio(){
+        return bloqueio;
+    }
+
+    public void setBloqueio(DadosBloqueioCartao bloqueio){
+        this.bloqueio = bloqueio;
+    }
+
 }
