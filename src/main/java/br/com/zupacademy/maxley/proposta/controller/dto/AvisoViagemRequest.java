@@ -11,27 +11,27 @@ import java.time.LocalDate;
 
 public class AvisoViagemRequest {
     @NotBlank
-    private String destinoViagem;
-    @NotNull @Future @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataTermino;
+    private String destino;
+    @NotNull @Future @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate validoAte;
 
     @Deprecated
     public AvisoViagemRequest(){}
 
     public AvisoViagemRequest(String destinoViagem, LocalDate dataTermino) {
-        this.destinoViagem = destinoViagem;
-        this.dataTermino = dataTermino;
+        this.destino = destinoViagem;
+        this.validoAte = dataTermino;
     }
 
-    public String getDestinoViagem() {
-        return destinoViagem;
+    public String getDestino() {
+        return destino;
     }
 
-    public LocalDate getDataTermino() {
-        return dataTermino;
+    public LocalDate getValidoAte() {
+        return validoAte;
     }
 
     public AvisoViagem toModel(Cartao cartao, String userAgent, String remoteAddr) {
-        return new AvisoViagem(destinoViagem, dataTermino, userAgent, remoteAddr, cartao);
+        return new AvisoViagem(destino, validoAte, userAgent, remoteAddr, cartao);
     }
 }
