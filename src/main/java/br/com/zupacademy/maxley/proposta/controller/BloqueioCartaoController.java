@@ -19,7 +19,6 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.net.BindException;
 
 @RestController
 public class BloqueioCartaoController {
