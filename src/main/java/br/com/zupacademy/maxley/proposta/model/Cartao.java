@@ -1,5 +1,7 @@
 package br.com.zupacademy.maxley.proposta.model;
 
+import br.com.zupacademy.maxley.proposta.controller.dto.EstadoCartao;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -19,6 +21,8 @@ public class Cartao {
     private Integer limite;
     @OneToMany(mappedBy = "cartao")
     private List<Biometria> biometrias = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private EstadoCartao estadoCartao;
     @OneToOne
     private DadosBloqueioCartao bloqueio;
 
@@ -44,4 +48,28 @@ public class Cartao {
         this.bloqueio = bloqueio;
     }
 
+    public EstadoCartao getEstadoCartao() {
+        return estadoCartao;
+    }
+
+    public void setEstadoCartao(EstadoCartao estadoCartao) {
+        this.estadoCartao = estadoCartao;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Cartao{" +
+                "id='" + id + '\'' +
+                ", emitidoEm='" + emitidoEm + '\'' +
+                ", titular='" + titular + '\'' +
+                ", limite=" + limite +
+                ", biometrias=" + biometrias +
+                ", estadoCartao=" + estadoCartao +
+                ", bloqueio=" + bloqueio +
+                '}';
+    }
 }

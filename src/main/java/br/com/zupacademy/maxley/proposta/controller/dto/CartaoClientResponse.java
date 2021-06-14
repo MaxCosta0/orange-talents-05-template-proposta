@@ -1,6 +1,7 @@
 package br.com.zupacademy.maxley.proposta.controller.dto;
 
 import br.com.zupacademy.maxley.proposta.model.Cartao;
+import br.com.zupacademy.maxley.proposta.model.Proposta;
 
 public class CartaoClientResponse {
 
@@ -38,9 +39,9 @@ public class CartaoClientResponse {
         return idProposta;
     }
 
-    public Cartao toModel(){
+    public Cartao toModel(Proposta proposta){
         //Optional<Proposta> propostaAReceberCartao = propostaRepository.findById(Long.parseLong(idProposta));
        // Assert.state(propostaAReceberCartao.isPresent(), "[BUG] Id nulo para a proposta que vai receber o cartao");
-        return new Cartao(id, emitidoEm, titular, limite);
+        return new Cartao(id, emitidoEm, proposta.getNome(), limite);
     }
 }

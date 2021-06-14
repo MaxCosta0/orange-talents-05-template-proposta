@@ -1,7 +1,12 @@
 package br.com.zupacademy.maxley.proposta.controller;
 
+import br.com.zupacademy.maxley.proposta.controller.dto.BloqueioCartaoRequest;
+import br.com.zupacademy.maxley.proposta.controller.dto.BloqueioCartaoResponse;
+import br.com.zupacademy.maxley.proposta.controller.dto.EstadoCartao;
+import br.com.zupacademy.maxley.proposta.controller.feign.CartoesClient;
 import br.com.zupacademy.maxley.proposta.model.Cartao;
 import br.com.zupacademy.maxley.proposta.model.DadosBloqueioCartao;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.net.BindException;
 
 @RestController
 public class BloqueioCartaoController {
@@ -20,26 +27,49 @@ public class BloqueioCartaoController {
     @Autowired
     private EntityManager manager;
 
+    @Autowired
+    private CartoesClient cartoesClient;
+
     @PostMapping(value = "/cartoes/bloquear/{id}")
     @Transactional
     public ResponseEntity<?> bloquear(@PathVariable("id") String id,
                                       @RequestHeader("User-Agent") String userAgent,
-                                      HttpServletRequest request){
+                                      HttpServletRequest request) throws IOException {
         Cartao cartao = manager.find(Cartao.class, id);
 
+        //Caso onde o cartao nao é encontrado
         if(cartao == null){
             return ResponseEntity.notFound().build();
         }
 
-        if(cartao.getBloqueio() != null){
+        //Caso onde o cartao ja esta bloqueado
+        if(cartao.getEstadoCartao() == EstadoCartao.BLOQUEADO){
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+        }
+
+        boolean bloqueadoNoSistemaLegado = bloqueioNoSistemaLegado(cartao);
+
+        //Caso onde o sistema legado nao pode bloquear o cartao por algum motivo
+        if(!bloqueadoNoSistemaLegado){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
 
         DadosBloqueioCartao bloqueio = new DadosBloqueioCartao(request.getRemoteAddr(), userAgent);
         cartao.setBloqueio(bloqueio);
+
         manager.persist(bloqueio);
         manager.merge(cartao);
 
         return ResponseEntity.ok().build();
+    }
+
+    public boolean bloqueioNoSistemaLegado(Cartao cartao) throws IOException {
+        try{
+            BloqueioCartaoResponse response = cartoesClient.bloqueaCartao(cartao.getId(), new BloqueioCartaoRequest("Proposta"));
+            cartao.setEstadoCartao(EstadoCartao.BLOQUEADO);
+        }catch (FeignException exception) {
+            return false;
+        }
+        return true;
     }
 }

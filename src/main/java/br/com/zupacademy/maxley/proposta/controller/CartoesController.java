@@ -39,7 +39,7 @@ public class CartoesController {
         for(Proposta proposta: propostasElegiveis){
             if(proposta.getCartao() == null){
                 CartaoClientResponse response = cartoesClient.criaCartao(proposta.getId());
-                Cartao novoCartaoProposta = response.toModel();
+                Cartao novoCartaoProposta = response.toModel(proposta);
 
                 proposta.setCartao(novoCartaoProposta);
                 manager.merge(proposta);
