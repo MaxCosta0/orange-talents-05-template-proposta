@@ -1,5 +1,6 @@
 package br.com.zupacademy.maxley.proposta.controller.feign;
 import br.com.zupacademy.maxley.proposta.controller.dto.*;
+import feign.Request;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,4 +15,7 @@ public interface CartoesClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/{idCartao}/avisos")
     AvisoViagemResponse notificaViagemSistemaBancario(@PathVariable("idCartao") String idCartao, AvisoViagemRequest request);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{idCartao}/carteiras")
+    void associaCartaoACarteiraDigitalNoSistemaBancario(@PathVariable String idCartao, CarteiraDigitalRequest request);
 }

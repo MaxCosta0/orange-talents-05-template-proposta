@@ -6,6 +6,8 @@ import br.com.zupacademy.maxley.proposta.controller.dto.EstadoCartao;
 import br.com.zupacademy.maxley.proposta.controller.feign.CartoesClient;
 import br.com.zupacademy.maxley.proposta.model.Cartao;
 import br.com.zupacademy.maxley.proposta.model.DadosBloqueioCartao;
+import br.com.zupacademy.maxley.proposta.repository.BloqueioRepository;
+import br.com.zupacademy.maxley.proposta.repository.CartaoRepository;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,26 +17,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import java.io.IOException;
 
 @RestController
 public class BloqueioCartaoController {
 
     @Autowired
-    private EntityManager manager;
+    private CartaoRepository cartaoRepository;
+
+    @Autowired
+    BloqueioRepository bloqueioRepository;
 
     @Autowired
     private CartoesClient cartoesClient;
 
     @PostMapping(value = "/cartoes/bloquear/{id}")
-    @Transactional
+    //@Transactional
     public ResponseEntity<?> bloquear(@PathVariable("id") String id,
                                       @RequestHeader("User-Agent") String userAgent,
                                       HttpServletRequest request) throws IOException {
-        Cartao cartao = manager.find(Cartao.class, id);
+        //Cartao cartao = manager.find(Cartao.class, id);
+        Cartao cartao = cartaoRepository.findById(id).get();
 
         //Caso onde o cartao nao é encontrado
         if(cartao == null){
@@ -56,8 +60,11 @@ public class BloqueioCartaoController {
         DadosBloqueioCartao bloqueio = new DadosBloqueioCartao(request.getRemoteAddr(), userAgent);
         cartao.setBloqueio(bloqueio);
 
-        manager.persist(bloqueio);
-        manager.merge(cartao);
+        //manager.persist(bloqueio);
+        //manager.merge(cartao);
+
+        bloqueioRepository.save(bloqueio);
+        cartaoRepository.save(cartao);
 
         return ResponseEntity.ok().build();
     }

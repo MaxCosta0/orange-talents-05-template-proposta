@@ -4,6 +4,8 @@ import br.com.zupacademy.maxley.proposta.controller.dto.AvisoViagemRequest;
 import br.com.zupacademy.maxley.proposta.controller.feign.CartoesClient;
 import br.com.zupacademy.maxley.proposta.model.AvisoViagem;
 import br.com.zupacademy.maxley.proposta.model.Cartao;
+import br.com.zupacademy.maxley.proposta.repository.AvisoViagemRepository;
+import br.com.zupacademy.maxley.proposta.repository.CartaoRepository;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,12 +16,16 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 public class AvisoViagemController {
 
     @Autowired
-    private EntityManager manager;
+    private CartaoRepository cartaoRepository;
+
+    @Autowired
+    private AvisoViagemRepository avisoViagemRepository;
 
     @Autowired
     private CartoesClient cartoesClient;
@@ -30,7 +36,7 @@ public class AvisoViagemController {
                                        @RequestHeader("User-Agent") String userAgent,
                                        HttpServletRequest httpServletRequest,
                                        @Valid @RequestBody AvisoViagemRequest request){
-        Cartao cartao = manager.find(Cartao.class, idCartao);
+        Optional<Cartao> cartao = cartaoRepository.findById(idCartao);
 
         //Caso o cartao nao exista no banco de dados
         if(cartao == null){
@@ -45,8 +51,9 @@ public class AvisoViagemController {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
 
-        AvisoViagem avisoViagem = request.toModel(cartao, userAgent, httpServletRequest.getRemoteAddr());
-        manager.persist(avisoViagem);
+        AvisoViagem avisoViagem = request.toModel(cartao.get(), userAgent, httpServletRequest.getRemoteAddr());
+        //manager.persist(avisoViagem);
+        avisoViagemRepository.save(avisoViagem);
 
         return ResponseEntity.ok().build();
     }
