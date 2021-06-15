@@ -1,7 +1,10 @@
 package br.com.zupacademy.maxley.proposta.model;
 
+import br.com.zupacademy.maxley.proposta.controller.dto.TipoCarteiraDigital;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class CarteiraDigital {
@@ -11,12 +14,13 @@ public class CarteiraDigital {
     private Long id;
     @NotBlank
     private String email;
-    @NotBlank
-    private String carteira;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private TipoCarteiraDigital carteira;
     @ManyToOne
     private Cartao cartao;
 
-    public CarteiraDigital(String email, String carteira, Cartao cartao) {
+    public CarteiraDigital(String email, TipoCarteiraDigital carteira, Cartao cartao) {
         this.email = email;
         this.carteira = carteira;
         this.cartao = cartao;

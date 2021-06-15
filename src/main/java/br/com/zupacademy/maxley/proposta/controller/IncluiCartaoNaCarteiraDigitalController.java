@@ -21,7 +21,7 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-public class IncluiCartaoNoPaypalController {
+public class IncluiCartaoNaCarteiraDigitalController {
 
     @Autowired
     private CartaoRepository cartaoRepository;
@@ -32,7 +32,7 @@ public class IncluiCartaoNoPaypalController {
     @Autowired
     private CartoesClient cartoesClient;
 
-    @PostMapping(value = "/cartoes/{idCartao}/paypal")
+    @PostMapping(value = "/cartoes/{idCartao}/carteira-digital")
     public ResponseEntity<?> incluirCartaoNoPaypal(@PathVariable("idCartao") String idCartao,
                                                    @Valid @RequestBody CarteiraDigitalRequest request,
                                                    UriComponentsBuilder uriComponentsBuilder){
