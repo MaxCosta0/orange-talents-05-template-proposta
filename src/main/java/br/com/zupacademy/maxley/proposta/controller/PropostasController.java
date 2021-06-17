@@ -5,6 +5,8 @@ import br.com.zupacademy.maxley.proposta.controller.feign.ConsultaDadosFinanceir
 import br.com.zupacademy.maxley.proposta.model.Proposta;
 import br.com.zupacademy.maxley.proposta.repository.PropostaRepository;
 import feign.FeignException;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,12 @@ public class PropostasController {
     @Autowired
     private PropostaRepository propostaRepository;
 
+    private Tracer tracer;
+
+    public PropostasController(Tracer tracer){
+        this.tracer = tracer;
+    }
+
     @PostMapping(value = "/propostas")
     @Transactional
     public ResponseEntity<?> cadastrarProposta(@Valid @RequestBody NovaPropostaRequest request,
@@ -45,6 +53,10 @@ public class PropostasController {
        Proposta novaProposta = request.toModel();
        manager.persist(novaProposta);
        URI urlProposta = uriComponentsBuilder.path("propostas/{id}").buildAndExpand(novaProposta.getId()).toUri();
+
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("proposta.email", novaProposta.getEmail());
+        activeSpan.setBaggageItem("proposta.email", novaProposta.getEmail());
        return ResponseEntity.created(urlProposta).build();
     }
 

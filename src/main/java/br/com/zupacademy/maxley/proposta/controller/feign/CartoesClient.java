@@ -1,6 +1,5 @@
 package br.com.zupacademy.maxley.proposta.controller.feign;
 import br.com.zupacademy.maxley.proposta.controller.dto.*;
-import feign.Request;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
