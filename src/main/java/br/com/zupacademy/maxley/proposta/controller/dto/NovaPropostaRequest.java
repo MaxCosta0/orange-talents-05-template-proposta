@@ -1,5 +1,6 @@
 package br.com.zupacademy.maxley.proposta.controller.dto;
 
+import br.com.zupacademy.maxley.proposta.config.annotation.CPForCNPJ;
 import br.com.zupacademy.maxley.proposta.model.Proposta;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -8,7 +9,7 @@ import java.math.BigDecimal;
 
 public class NovaPropostaRequest {
 
-    @NotBlank @CPF
+    @NotBlank @CPForCNPJ
     private String documento;
     @NotBlank @Email
     private String email;
@@ -27,6 +28,10 @@ public class NovaPropostaRequest {
         this.nome = nome;
         this.endereco = endereço;
         this.salario = salario;
+    }
+
+    public String documentoCryptografado(){
+        return new DocumentoLimpo(this.documento).encodeDocumento();
     }
 
     public String getDocumento() {
@@ -50,6 +55,6 @@ public class NovaPropostaRequest {
     }
 
     public Proposta toModel() {
-        return new Proposta(documento, email, nome, endereco, salario);
+        return new Proposta(new DocumentoLimpo(documento), email, nome, endereco, salario);
     }
 }

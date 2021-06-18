@@ -1,8 +1,7 @@
 package br.com.zupacademy.maxley.proposta.model;
 
-import br.com.zupacademy.maxley.proposta.config.annotation.CPForCNPJ;
+import br.com.zupacademy.maxley.proposta.controller.dto.DocumentoLimpo;
 import br.com.zupacademy.maxley.proposta.controller.dto.EstadoProposta;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,14 +11,12 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 @Entity
-//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Proposta {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     @NotBlank
-    @CPForCNPJ
     private String documento;
 
     @NotBlank @Email
@@ -44,11 +41,11 @@ public class Proposta {
     @Deprecated
     public Proposta(){}
 
-    public Proposta(@NotBlank @CPF String documento, @NotBlank @Email String email,
+    public Proposta(@NotBlank DocumentoLimpo documentoLimpo, @NotBlank @Email String email,
                     @NotBlank String nome, @NotBlank String endereco,
                     @NotNull @Positive BigDecimal salario){
 
-        this.documento = documento;
+        this.documento = documentoLimpo.encodeDocumento();
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;
@@ -60,6 +57,10 @@ public class Proposta {
     }
 
     public String getDocumento() {
+        //String documentoLimpo = Encryptors.text(secretBean.getSecret(), secretBean.getSalt()).decrypt(this.documento);
+
+       // System.out.println("Documento Limpo: " + documentoLimpo);
+
         return documento;
     }
 

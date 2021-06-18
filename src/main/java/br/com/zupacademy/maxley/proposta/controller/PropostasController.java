@@ -44,7 +44,7 @@ public class PropostasController {
     public ResponseEntity<?> cadastrarProposta(@Valid @RequestBody NovaPropostaRequest request,
                                                UriComponentsBuilder uriComponentsBuilder){
 
-       Optional<Proposta> possivelProposta = propostaRepository.findByDocumento(request.getDocumento());
+       Optional<Proposta> possivelProposta = propostaRepository.findByDocumento(request.documentoCryptografado());
 
        if(possivelProposta.isPresent()){
            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Documento ja cadastrado");
